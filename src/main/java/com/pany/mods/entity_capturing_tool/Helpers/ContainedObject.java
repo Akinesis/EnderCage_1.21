@@ -2,31 +2,21 @@ package com.pany.mods.entity_capturing_tool.Helpers;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageEntity;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.component.ComponentMapImpl;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
-import java.util.function.Function;
 
 public class ContainedObject {
 
@@ -180,8 +170,8 @@ public class ContainedObject {
         return this.BoundTo;
     }
 
-    public boolean CaptureEntity(Entity entity, World world, @Nullable PlayerEntity player) {
-        if (world != null && !world.isClient && entity != null && this.BoundTo != null && !this.ContainsEntity() && ContainmentHandler.IsContainmentAllowed(entity,world)) {
+    public boolean CaptureEntity(Entity entity, World world, @Nullable PlayerEntity player, Item enderCage) {
+        if (world != null && !world.isClient && entity != null && this.BoundTo != null && !this.ContainsEntity() && ContainmentHandler.IsContainmentAllowed(entity,world, enderCage)) {
             NbtCompound nbt = ContainmentHandler.EntityToNbt(entity);
             if (nbt != null) {
                 entity.discard();

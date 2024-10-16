@@ -3,6 +3,7 @@ package com.pany.mods.entity_capturing_tool.mixin;
 import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainedObject;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainmentRenderingObject;
+import com.pany.mods.entity_capturing_tool.Helpers.OtherHelper;
 import com.pany.mods.entity_capturing_tool.injectedinterfaces.itemstackcontainedobject;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.BlockItem;
@@ -32,7 +33,8 @@ public class itemstackmixin implements itemstackcontainedobject {
 
     @Override
     public ContainmentRenderingObject GetContainedRender() {
-        if ( !((ItemStack)(Object)this).getItem().equals(EntityCapturingTool.EnderCageBlock.asItem()) ) {
+        boolean isEnderCage = OtherHelper.isEndercage(((ItemStack)(Object)this).getItem());
+        if ( !isEnderCage) {
             return null;
         }
         if (Contained == null) {

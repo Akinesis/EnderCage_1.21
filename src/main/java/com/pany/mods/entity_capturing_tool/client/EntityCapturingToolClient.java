@@ -1,6 +1,7 @@
 package com.pany.mods.entity_capturing_tool.client;
 
 import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
+import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageDiamondRender;
 import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageRender;
 import com.pany.mods.entity_capturing_tool.entities.unknownentitymodel;
 import com.pany.mods.entity_capturing_tool.entities.unknownentityrenderer;
@@ -22,6 +23,7 @@ public class EntityCapturingToolClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockEntityRendererFactories.register(EntityCapturingTool.EnderCageBlockEntity, EnderCageRender::new);
+        BlockEntityRendererFactories.register(EntityCapturingTool.EnderCageDiamondBlockEntity, EnderCageDiamondRender::new);
 
         EntityRendererRegistry.register(EntityCapturingTool.UnknownEntityType, (context) -> {
             return new unknownentityrenderer(context,new unknownentitymodel(unknownentitymodel.getTexturedModelData().createModel()),2f );

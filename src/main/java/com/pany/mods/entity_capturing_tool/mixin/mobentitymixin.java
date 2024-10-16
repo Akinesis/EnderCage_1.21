@@ -3,6 +3,7 @@ package com.pany.mods.entity_capturing_tool.mixin;
 import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainedObject;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainmentHandler;
+import com.pany.mods.entity_capturing_tool.Helpers.OtherHelper;
 import com.pany.mods.entity_capturing_tool.injectedinterfaces.soundgetting;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,13 +43,13 @@ public class mobentitymixin implements soundgetting {
         if (entity.isAlive()) {
             ItemStack stack = player.getStackInHand(hand);
             ContainedObject containedObject = new ContainedObject(stack);
-            if (Objects.equals(EntityCapturingTool.EnderCageBlock.asItem(),stack.getItem()) && !containedObject.ContainsEntity() ) {
+            if (OtherHelper.isEndercage(stack.getItem()) && !containedObject.ContainsEntity() ) {
                 if (entity.getWorld().isClient) {
                     cir.setReturnValue(ActionResult.PASS);
                     cir.cancel();
                     return;
                 }
-                boolean Success = containedObject.CaptureEntity(entity,entity.getWorld(),player);
+                boolean Success = containedObject.CaptureEntity(entity,entity.getWorld(),player, stack.getItem());
                 if (Success) {
                     player.getWorld().playSound(null,entity.getBlockPos(), SoundEvents.BLOCK_ENDER_CHEST_OPEN, SoundCategory.BLOCKS,2,1.75f);
                     cir.setReturnValue(ActionResult.PASS);

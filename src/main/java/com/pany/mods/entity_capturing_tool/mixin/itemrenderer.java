@@ -3,6 +3,7 @@ package com.pany.mods.entity_capturing_tool.mixin;
 import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainedObject;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainmentRenderingObject;
+import com.pany.mods.entity_capturing_tool.Helpers.OtherHelper;
 import com.pany.mods.entity_capturing_tool.injectedinterfaces.itemrendering;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.item.ItemColors;
@@ -68,7 +69,7 @@ public class itemrenderer implements itemrendering {
     }
     @Inject(cancellable = true,at = @At(value = "HEAD"),method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V")
     private void endercage$itemframerender(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo cir) {
-        if (!stack.isEmpty() && stack.getItem().equals(EntityCapturingTool.EnderCageItem) && stack.getFrame() != null ){
+        if (!stack.isEmpty() && OtherHelper.isEndercage(stack.getItem()) && stack.getFrame() != null ){
             int rendadd = 0;
             ItemRenderer ActualThis = ( (ItemRenderer)(Object)this );
             ContainmentRenderingObject containedRender = stack.GetContainedRender();
@@ -100,7 +101,7 @@ public class itemrenderer implements itemrendering {
     private void endercage$itemrender(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
         ItemRenderer ActualThis = ( (ItemRenderer)(Object)this );
         if (ActualThis.GetEntityRender() != null) {
-            if (!stack.isEmpty() && stack.getItem().equals(EntityCapturingTool.EnderCageItem) && renderMode != ModelTransformationMode.GUI ) {
+            if (!stack.isEmpty() && OtherHelper.isEndercage(stack.getItem()) && renderMode != ModelTransformationMode.GUI ) {
                 ContainmentRenderingObject containedRender = stack.GetContainedRender();
                 Entity entity = containedRender.GetRenderEntity(ActualThis.GetClient().world);
                 if (entity != null) {

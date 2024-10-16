@@ -2,6 +2,7 @@ package com.pany.mods.entity_capturing_tool.mixin;
 
 import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainedObject;
+import com.pany.mods.entity_capturing_tool.Helpers.OtherHelper;
 import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCage;
 import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageEntity;
 import net.minecraft.block.BlockState;
@@ -37,7 +38,7 @@ public class blockitemmixin {
     @Inject(method = "useOnBlock",at = @At("HEAD"),cancellable = true)
     private void endercage$useonblock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = context.getStack();
-        if (context.getHand() == Hand.MAIN_HAND && Objects.equals(stack.getItem(), EnderCageItem) ) {
+        if (context.getHand() == Hand.MAIN_HAND && OtherHelper.isEndercage(stack.getItem())) {
             if (!context.getWorld().isClient) {
                 ServerPlayerEntity player = (ServerPlayerEntity)context.getPlayer();
                 if (!player.isSneaking()) {

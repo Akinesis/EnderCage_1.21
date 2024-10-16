@@ -2,6 +2,8 @@ package com.pany.mods.entity_capturing_tool;
 
 import com.pany.mods.entity_capturing_tool.Helpers.CommandRegisterer;
 import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCage;
+import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageDiamond;
+import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageDiamondEntity;
 import com.pany.mods.entity_capturing_tool.blocks.endercageblock.EnderCageEntity;
 import com.pany.mods.entity_capturing_tool.entities.Unknownentity;
 import net.fabricmc.api.ModInitializer;
@@ -29,9 +31,13 @@ import java.util.List;
 public class EntityCapturingTool implements ModInitializer {
     // ;
     public static final EnderCage EnderCageBlock = new EnderCage(FabricBlockSettings.create().luminance(6).strength(2f,600f).requiresTool() );
+    public static final EnderCageDiamond EnderCageDiamondBlock = new EnderCageDiamond(FabricBlockSettings.create().luminance(6).strength(2f,600f).requiresTool() );
     public static final BlockEntityType<EnderCageEntity> EnderCageBlockEntity = Registry.register(Registries.BLOCK_ENTITY_TYPE,Identifier.of("endercage","endercageentity"),
             FabricBlockEntityTypeBuilder.create(EnderCageEntity::new,EnderCageBlock).build());
+    public static final BlockEntityType<EnderCageDiamondEntity> EnderCageDiamondBlockEntity = Registry.register(Registries.BLOCK_ENTITY_TYPE,Identifier.of("endercage","endercagediamondentity"),
+            FabricBlockEntityTypeBuilder.create(EnderCageDiamondEntity::new,EnderCageDiamondBlock).build());
     public static Item EnderCageItem = null;
+    public static Item EnderCageDiamondItem = null;
 
     public static Identifier EnderCageIdentifier(String Path) {
         return Identifier.of("endercage",Path);
@@ -44,10 +50,13 @@ public class EntityCapturingTool implements ModInitializer {
     @Override
     public void onInitialize() {
         Registry.register(Registries.BLOCK,EnderCageIdentifier("endercage"),EnderCageBlock);
+        Registry.register(Registries.BLOCK,EnderCageIdentifier("endercagediamond"),EnderCageDiamondBlock);
         EnderCageItem = Registry.register(Registries.ITEM,EnderCageIdentifier("endercage"),new BlockItem(EnderCageBlock, new Item.Settings().maxCount(16).rarity(Rarity.EPIC).component(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT)));
-        //EnderCageItem = Item.fromBlock(EnderCageBlock);
+        EnderCageDiamondItem = Registry.register(Registries.ITEM,EnderCageIdentifier("endercagediamond"),new BlockItem(EnderCageDiamondBlock, new Item.Settings().maxCount(16).rarity(Rarity.EPIC).component(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.DEFAULT)));
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> {
             content.add(EnderCageItem);
+            content.add(EnderCageDiamondItem);
         } );
         CommandRegisterer.RegisterCommands();
         FabricDefaultAttributeRegistry.register(UnknownEntityType, Unknownentity.createMobAttributes());

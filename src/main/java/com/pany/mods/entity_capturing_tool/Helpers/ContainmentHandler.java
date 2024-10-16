@@ -1,10 +1,12 @@
 package com.pany.mods.entity_capturing_tool.Helpers;
 
+import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -49,12 +51,12 @@ public class ContainmentHandler {
         return entity;
     }
 
-    public static boolean IsContainmentAllowed(Entity entity, World world) {
+    public static boolean IsContainmentAllowed(Entity entity, World world, Item enderCage) {
         if (entity == null) {
             return false;
         }
         ConfigHelper Config = world.getServer().GetEndercageConfig();
-        if (entity instanceof PlayerEntity || !(entity instanceof MobEntity) || !Config.HostilesAllowed && (entity instanceof HostileEntity)) {
+        if (entity instanceof PlayerEntity || !(entity instanceof MobEntity) || (!Config.HostilesAllowed && ((entity instanceof HostileEntity) && !enderCage.equals(EntityCapturingTool.EnderCageDiamondItem)))) {
             return false;
         }
         if (Config.BannedEntities.contains(entity.getType())) {

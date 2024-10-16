@@ -4,9 +4,11 @@ import com.pany.mods.entity_capturing_tool.EntityCapturingTool;
 import com.pany.mods.entity_capturing_tool.Helpers.ConfigHelper;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainedObject;
 import com.pany.mods.entity_capturing_tool.Helpers.ContainmentHandler;
+import com.pany.mods.entity_capturing_tool.Helpers.OtherHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -36,6 +38,11 @@ public class EnderCageEntity extends BlockEntity {
 
     public EnderCageEntity(BlockPos pos, BlockState state) {
         super(EntityCapturingTool.EnderCageBlockEntity, pos, state);
+        this.ContainedEntity = new ContainedObject(this);
+    }
+
+    public EnderCageEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
         this.ContainedEntity = new ContainedObject(this);
     }
 
@@ -143,10 +150,10 @@ public class EnderCageEntity extends BlockEntity {
                 }
             } else if (!blockState.isSolidBlock(this.getWorld(),pos.add(0,1,0))) {
                 if (!this.ContainedEntity.ContainsEntity()) {
-                    Predicate<MobEntity> entityPredicate = entity -> ContainmentHandler.IsContainmentAllowed(entity,this.getWorld());
+                    Predicate<MobEntity> entityPredicate = entity -> ContainmentHandler.IsContainmentAllowed(entity,this.getWorld(), OtherHelper.getEnderCageItemOfEntity(this));
                     List<MobEntity> Entities = this.getWorld().getEntitiesByClass(MobEntity.class,Box.of(pos.toCenterPos().add(0,1,0),1.1,1.1,1.1),entityPredicate);
                     if (Entities.size() > 0) {
-                        boolean Success = this.ContainedEntity.CaptureEntity(Entities.get(0),this.getWorld(),null);
+                        boolean Success = this.ContainedEntity.CaptureEntity(Entities.get(0),this.getWorld(),null, OtherHelper.getEnderCageItemOfEntity(this));
                         if (Success) {
                             this.getWorld().playSound(null,this.getPos(), SoundEvents.BLOCK_ENDER_CHEST_OPEN,SoundCategory.BLOCKS,2,1.5f);
                         }

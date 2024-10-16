@@ -34,6 +34,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -77,6 +78,7 @@ public class EnderCage extends BlockWithEntity implements BlockEntityProvider {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return type == EntityCapturingTool.EnderCageBlockEntity ? EnderCageEntity::tick : null;
     }
+
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         EnderCageEntity cageEntity = null;
@@ -208,4 +210,5 @@ public class EnderCage extends BlockWithEntity implements BlockEntityProvider {
     public boolean emitsRedstonePower(BlockState state) {
         return true;
     }
+
 }

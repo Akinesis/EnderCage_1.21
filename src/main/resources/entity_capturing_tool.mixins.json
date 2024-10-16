@@ -8,7 +8,8 @@
     "configloading",
     "itemstackmixin",
     "mobentitymixin",
-    "noteblockmixin"
+    "noteblockmixin",
+    "BlockMixin"
   ],
   "client": [
     "itemrenderer",
